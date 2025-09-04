@@ -818,7 +818,7 @@ class BookDestroyerApp {
     async loadApostilasData() {
         try {
             this.showLoadingState();
-            const response = await fetch('https://books-aheiz7nx0-guilherme-fontes-projects-c051211b.vercel.app/api/apostilas');
+            const response = await fetch('https://books-api-blush.vercel.app/api/apostilas');
             
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
