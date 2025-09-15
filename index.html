@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apostila Destroyer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="shortcut icon" href="https://imgs.search.brave.com/ewBOsudyEhHzqASvoT9Jm5CNNjpIeQGYYMTOGIdXGJk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wbmdm/cmUuY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy9ib29rLTQ5LTIy/N3gzMDAucG5n" type="imagex/png">
+    <link rel="shortcut icon"
+        href="https://imgs.search.brave.com/ewBOsudyEhHzqASvoT9Jm5CNNjpIeQGYYMTOGIdXGJk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wbmdm/cmUuY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy9ib29rLTQ5LTIy/N3gzMDAucG5n"
+        type="imagex/png">
     <link rel="stylesheet" href="src/css/styles.css">
 </head>
+
 <body data-theme="dark">
     <div id="mainApp" class="main-app active">
         <nav class="navbar">
@@ -22,7 +27,7 @@
                         <span>Apostila Destroyer</span>
                     </a>
                 </div>
-                
+
                 <div class="nav-right">
                     <button id="themeToggle" class="theme-toggle">
                         <i class="fas fa-moon"></i>
@@ -95,7 +100,8 @@
                                 para o seu aprendizado
                             </h1>
                             <p class="hero-subtitle">
-                                Acesse conteúdo de qualidade, organize seus estudos e acompanhe seu progresso de forma inteligente.
+                                Acesse conteúdo de qualidade, organize seus estudos e acompanhe seu progresso de forma
+                                inteligente.
                             </p>
                             <div class="hero-actions">
                                 <a href="#apostilas" class="btn btn-primary btn-large" data-page="apostilas">
@@ -279,10 +285,39 @@
                 </div>
             </div>
 
-        <!-- Overlay for mobile sidebar -->
-        <div id="overlay" class="overlay"></div>
+            <!-- Overlay for mobile sidebar -->
+            <div id="overlay" class="overlay"></div>
+
+            <!-- Modal de Doação -->
+            <div id="donationModal" class="donation-modal">
+                <div class="donation-modal-content">
+                    <button class="donation-close" id="closeDonationModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+
+                    <div class="donation-header">
+                        <h2>💝 Apoie o Apostila Destroyer!</h2>
+                        <p>Gosta de como é simples responder as suas apostilas escolares? Nos ajude com qualquer valor!
+                        </p>
+                    </div>
+
+                    <div class="donation-body">
+                        <div class="donation-info">
+                            <h3>Apostilas CMSP</h3>
+                            <p>Website feito por y4fw e xeonno :D</p>
+                        </div>
+
+                        <a href="https://pixgg.com/y4fw" target="_blank" class="donation-btn">
+                            <i class="fas fa-heart"></i>
+                            <span>Apoiar com Doação</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
     </div>
 
     <script src="src/script/script.js"></script>
 </body>
+
 </html>
