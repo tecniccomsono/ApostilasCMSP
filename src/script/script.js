@@ -14,6 +14,7 @@ class BookDestroyerApp {
         this.initializeAnimations();
         this.handleResize();
         this.initializeMainApp();
+        
     }
 
     initializeMainApp() {
@@ -24,6 +25,7 @@ class BookDestroyerApp {
         this.initializeSearch();
         this.initializeAuth();
         this.loadApostilasData();
+        this.initializeDonationModal();
     }
 
     // Theme Management
@@ -400,15 +402,15 @@ class BookDestroyerApp {
         );
 
         buttons.forEach((button) => {
-            button.addEventListener("mouseenter", function () {
+            button.addEventListener("mouseenter", function() {
                 this.style.transform = "translateY(-2px)";
             });
 
-            button.addEventListener("mouseleave", function () {
+            button.addEventListener("mouseleave", function() {
                 this.style.transform = "translateY(0)";
             });
 
-            button.addEventListener("click", function (e) {
+            button.addEventListener("click", function(e) {
                 // Ripple effect
                 const ripple = document.createElement("span");
                 const rect = this.getBoundingClientRect();
@@ -417,17 +419,17 @@ class BookDestroyerApp {
                 const y = e.clientY - rect.top - size / 2;
 
                 ripple.style.cssText = `
-                    position: absolute;
-                    width: ${size}px;
-                    height: ${size}px;
-                    left: ${x}px;
-                    top: ${y}px;
-                    background: rgba(255, 255, 255, 0.3);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 0.6s linear;
-                    pointer-events: none;
-                `;
+                  position: absolute;
+                  width: ${size}px;
+                  height: ${size}px;
+                  left: ${x}px;
+                  top: ${y}px;
+                  background: rgba(255, 255, 255, 0.3);
+                  border-radius: 50%;
+                  transform: scale(0);
+                  animation: ripple 0.6s linear;
+                  pointer-events: none;
+              `;
 
                 this.style.position = "relative";
                 this.style.overflow = "hidden";
@@ -819,11 +821,11 @@ class BookDestroyerApp {
         try {
             this.showLoadingState();
             const response = await fetch('https://books-api-blush.vercel.app/api/apostilas');
-            
+
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
-            
+
             const data = await response.json();
             this.renderApostilasData(data);
             this.hideLoadingState();
@@ -837,14 +839,14 @@ class BookDestroyerApp {
     showLoadingState() {
         const ensino1Container = document.getElementById('ensino-fundamental');
         const ensino2Container = document.getElementById('ensino-medio');
-        
+
         const loadingHTML = `
-            <div class="loading-container">
-                <div class="loading-spinner"></div>
-                <p class="loading-text">Carregando apostilas...</p>
-            </div>
-        `;
-        
+          <div class="loading-container">
+              <div class="loading-spinner"></div>
+              <p class="loading-text">Carregando apostilas...</p>
+          </div>
+      `;
+
         if (ensino1Container) ensino1Container.innerHTML = loadingHTML;
         if (ensino2Container) ensino2Container.innerHTML = loadingHTML;
     }
@@ -865,40 +867,40 @@ class BookDestroyerApp {
         const gradeKeys = ['6ano', '7ano', '8ano', '9ano'];
         const gradeCards = gradeKeys.map(key => {
             if (!data[key]) return '';
-            
+
             const grade = data[key];
             const volumes = Object.keys(grade.volumes).map(volumeKey => {
                 const volume = grade.volumes[volumeKey];
                 const books = volume.books.map(book => `
-                    <a href="${book.url}" target="_blank" class="book-item">
-                        <i class="fas fa-file-pdf"></i>
-                        <span>${book.title}</span>
-                        <i class="fas fa-external-link-alt"></i>
-                    </a>
-                `).join('');
+                  <a href="${book.url}" target="_blank" class="book-item">
+                      <i class="fas fa-file-pdf"></i>
+                      <span>${book.title}</span>
+                      <i class="fas fa-external-link-alt"></i>
+                  </a>
+              `).join('');
 
                 return `
-                    <div class="volume-section">
-                        <h4 class="volume-title">${volume.title}</h4>
-                        <div class="books-list">
-                            ${books}
-                        </div>
-                    </div>
-                `;
+                  <div class="volume-section">
+                      <h4 class="volume-title">${volume.title}</h4>
+                      <div class="books-list">
+                          ${books}
+                      </div>
+                  </div>
+              `;
             }).join('');
 
             return `
-                <div class="grade-card">
-                    <div class="grade-header">
-                        <div class="grade-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h3>${grade.title}</h3>
-                        <span class="grade-count">${grade.totalApostilas} apostilas</span>
-                    </div>
-                    ${volumes}
-                </div>
-            `;
+              <div class="grade-card">
+                  <div class="grade-header">
+                      <div class="grade-icon">
+                          <i class="fas fa-graduation-cap"></i>
+                      </div>
+                      <h3>${grade.title}</h3>
+                      <span class="grade-count">${grade.totalApostilas} apostilas</span>
+                  </div>
+                  ${volumes}
+              </div>
+          `;
         }).join('');
 
         container.innerHTML = `<div class="grade-cards">${gradeCards}</div>`;
@@ -911,43 +913,105 @@ class BookDestroyerApp {
         const gradeKeys = ['1ano', '2ano', '3ano'];
         const gradeCards = gradeKeys.map(key => {
             if (!data[key]) return '';
-            
+
             const grade = data[key];
             const volumes = Object.keys(grade.volumes).map(volumeKey => {
                 const volume = grade.volumes[volumeKey];
                 const books = volume.books.map(book => `
-                    <a href="${book.url}" target="_blank" class="book-item">
-                        <i class="fas fa-file-pdf"></i>
-                        <span>${book.title}</span>
-                        <i class="fas fa-external-link-alt"></i>
-                    </a>
-                `).join('');
+                  <a href="${book.url}" target="_blank" class="book-item">
+                      <i class="fas fa-file-pdf"></i>
+                      <span>${book.title}</span>
+                      <i class="fas fa-external-link-alt"></i>
+                  </a>
+              `).join('');
 
                 return `
-                    <div class="volume-section">
-                        <h4 class="volume-title">${volume.title}</h4>
-                        <div class="books-list">
-                            ${books}
-                        </div>
-                    </div>
-                `;
+                  <div class="volume-section">
+                      <h4 class="volume-title">${volume.title}</h4>
+                      <div class="books-list">
+                          ${books}
+                      </div>
+                  </div>
+              `;
             }).join('');
 
             return `
-                <div class="grade-card">
-                    <div class="grade-header">
-                        <div class="grade-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h3>${grade.title}</h3>
-                        <span class="grade-count">${grade.totalApostilas} apostilas</span>
-                    </div>
-                    ${volumes}
-                </div>
-            `;
+              <div class="grade-card">
+                  <div class="grade-header">
+                      <div class="grade-icon">
+                          <i class="fas fa-graduation-cap"></i>
+                      </div>
+                      <h3>${grade.title}</h3>
+                      <span class="grade-count">${grade.totalApostilas} apostilas</span>
+                  </div>
+                  ${volumes}
+              </div>
+          `;
         }).join('');
 
         container.innerHTML = `<div class="grade-cards">${gradeCards}</div>`;
+    }
+
+    
+
+    // Modal de Doação
+    initializeDonationModal() {
+        const modal = document.getElementById('donationModal');
+        const closeBtn = document.getElementById('closeDonationModal');
+        
+        if (!modal || !closeBtn) return;
+
+        // Mostrar modal após 2 segundos se não foi fechado antes
+        const modalShown = localStorage.getItem('donationModalShown');
+        const lastShown = localStorage.getItem('donationModalLastShown');
+        const now = new Date().getTime();
+        const oneDayInMs = 24 * 60 * 60 * 1000; // 24 horas
+
+        // Mostrar modal se nunca foi mostrado ou se passou mais de 24 horas
+        if (!modalShown || !lastShown || (now - parseInt(lastShown)) > oneDayInMs) {
+            setTimeout(() => {
+                this.showDonationModal();
+            }, 3000); // 3 segundos após carregar a página
+        }
+
+        // Fechar modal
+        closeBtn.addEventListener('click', () => {
+            this.closeDonationModal();
+        });
+
+        // Fechar modal clicando fora
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                this.closeDonationModal();
+            }
+        });
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                this.closeDonationModal();
+            }
+        });
+    }
+
+    showDonationModal() {
+        const modal = document.getElementById('donationModal');
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    closeDonationModal() {
+        const modal = document.getElementById('donationModal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Marcar como mostrado e salvar timestamp
+            localStorage.setItem('donationModalShown', 'true');
+            localStorage.setItem('donationModalLastShown', new Date().getTime().toString());
+        }
     }
 
     // Toast notifications
@@ -955,9 +1019,9 @@ class BookDestroyerApp {
         const toast = document.createElement("div");
         toast.className = `toast toast-${type}`;
         toast.innerHTML = `
-            <i class="fas fa-${type === "success" ? "check" : type === "error" ? "times" : "info"}"></i>
-            <span>${message}</span>
-        `;
+          <i class="fas fa-${type === "success" ? "check" : type === "error" ? "times" : "info"}"></i>
+          <span>${message}</span>
+      `;
 
         document.body.appendChild(toast);
 
@@ -984,109 +1048,109 @@ if (!document.querySelector("#dynamic-styles")) {
     const style = document.createElement("style");
     style.id = "dynamic-styles";
     style.textContent = `
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
+      @keyframes ripple {
+          to {
+              transform: scale(4);
+              opacity: 0;
+          }
+      }
 
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--bg-card);
-            color: var(--text-primary);
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border-primary);
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            z-index: 10000;
-        }
+      .toast {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: var(--bg-card);
+          color: var(--text-primary);
+          padding: 12px 16px;
+          border-radius: 8px;
+          border: 1px solid var(--border-primary);
+          box-shadow: var(--shadow-lg);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+          z-index: 10000;
+      }
 
-        .toast.show {
-            transform: translateX(0);
-        }
+      .toast.show {
+          transform: translateX(0);
+      }
 
-        .toast-success {
-            border-left: 4px solid var(--success);
-        }
+      .toast-success {
+          border-left: 4px solid var(--success);
+      }
 
-        .toast-error {
-            border-left: 4px solid var(--error);
-        }
+      .toast-error {
+          border-left: 4px solid var(--error);
+      }
 
-        .toast-info {
-            border-left: 4px solid var(--primary);
-        }
+      .toast-info {
+          border-left: 4px solid var(--primary);
+      }
 
-        .loading {
-            position: relative;
-            pointer-events: none;
-        }
+      .loading {
+          position: relative;
+          pointer-events: none;
+      }
 
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            margin: -10px 0 0 -10px;
-            border: 2px solid transparent;
-            border-top: 2px solid currentColor;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+      .loading::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 20px;
+          height: 20px;
+          margin: -10px 0 0 -10px;
+          border: 2px solid transparent;
+          border-top: 2px solid currentColor;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+      }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+      @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+      }
 
-        .theme-switching {
-            animation: themeSwitchPulse 0.3s ease;
-        }
+      .theme-switching {
+          animation: themeSwitchPulse 0.3s ease;
+      }
 
-        @keyframes themeSwitchPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
+      @keyframes themeSwitchPulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
+      }
 
-        .animate-in {
-            animation: slideInUp 0.6s ease forwards;
-        }
+      .animate-in {
+          animation: slideInUp 0.6s ease forwards;
+      }
 
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+      @keyframes slideInUp {
+          from {
+              opacity: 0;
+              transform: translateY(30px);
+          }
+          to {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
 
-        .fade-out {
-            animation: fadeOut 0.3s ease forwards;
-        }
+      .fade-out {
+          animation: fadeOut 0.3s ease forwards;
+      }
 
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-        }
-    `;
+      @keyframes fadeOut {
+          from {
+              opacity: 1;
+              transform: translateY(0);
+          }
+          to {
+              opacity: 0;
+              transform: translateY(-10px);
+          }
+      }
+  `;
     document.head.appendChild(style);
 }
